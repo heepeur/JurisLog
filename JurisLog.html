@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JurisLog - Base Juridique Complète du Tennessee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --crime: #e74c3c;
+            --delit: #f39c12;
+            --contravention: #27ae60;
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --overlay: rgba(0, 0, 0, 0.7);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo i {
+            font-size: 2rem;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 40%;
+        }
+        #search {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            outline: none;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            transition: all 0.3s ease;
+        }
+        #search::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        #search:focus {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 30px;
+            background-color: var(--white);
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .filters {
+            background-color: var(--white);
+            padding: 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 1.5rem 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-btn.active {
+            transform: scale(1.05);
+        }
+        .container {
+            display: flex;
+            gap: 1.5rem;
+            padding: 0 2rem 2rem;
+        }
+        .sidebar {
+            width: 280px;
+            background-color: var(--white);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        .sidebar h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar ul {
+            list-style: none;
+        }
+        .sidebar li {
+            padding: 0.6rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sidebar li:hover {
+            background-color: #f0f0f0;
+        }
+        .sidebar li.active {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .infraction-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 6px solid transparent;
+            cursor: pointer;
+        }
+        .infraction-card.crime {
+            border-left-color: var(--crime);
+        }
+        .infraction-card.delit {
+            border-left-color: var(--delit);
+        }
+        .infraction-card.contravention {
+            border-left-color: var(--contravention);
+        }
+        .infraction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--light);
+            border-bottom: 1px solid #eee;
+        }
+        .card-checkbox {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+        .card-title {
+            flex: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .gravity-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+        .badge-crime {
+            background-color: var(--crime);
+        }
+        .badge-delit {
+            background-color: var(--delit);
+        }
+        .badge-contravention {
+            background-color: var(--contravention);
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .popup-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .popup {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .popup.active {
+            transform: scale(1);
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .popup-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .popup-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.2s;
+        }
+        .popup-close:hover {
+            color: var(--crime);
+        }
+        .popup-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+        .popup-section {
+            margin-bottom: 1.5rem;
+        }
+        .popup-section h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .popup-section p {
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+        .popup-section ul {
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+        }
+        .popup-section li {
+            margin-bottom: 0.3rem;
+            line-height: 1.5;
+        }
+        .cart-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay);
+            display: none;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .cart-popup-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .cart-popup {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 500px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            margin-right: 2rem;
+        }
+        .cart-popup.active {
+            transform: translateX(0);
+        }
+        .cart-popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        .cart-popup-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        .cart-popup-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.2s;
+        }
+        .cart-popup-close:hover {
+            color: var(--crime);
+        }
+        .cart-popup-items {
+            margin-bottom: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .cart-popup-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .cart-popup-item:last-child {
+            border-bottom: none;
+        }
+        .cart-popup-item-info h5 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+            text-align: left;
+        }
+        .cart-popup-item-peine {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        .cart-popup-summary {
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        .cart-popup-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .cart-popup-summary-total {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .cart-toggle {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .cart-toggle::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--crime);
+            color: var(--white);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .cart-toggle[data-count="0"]::after {
+            display: none;
+        }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .search-container {
+                width: 50%;
+            }
+            .popup-content {
+                grid-template-columns: 1fr;
+            }
+            .cart-popup {
+                width: calc(100% - 2rem);
+                margin-right: 1rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .search-container {
+                width: 100%;
+            }
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            .filters {
+                margin: 1rem;
+                justify-content: center;
+            }
+            .cart-toggle {
+                right: 1rem;
+                bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-balance-scale"></i>
+            <span>JurisLog</span>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Rechercher une infraction, une peine, une catégorie...">
+            <button id="search-btn">
+                <i class="fas fa-search"></i>
+                Rechercher
+            </button>
+        </div>
+    </header>
+    <div class="filters">
+        <button class="filter-btn btn-all active" data-filter="all">
+            <i class="fas fa-list"></i>
+            Toutes
+        </button>
+        <button class="filter-btn btn-crime" data-filter="crime">
+            <i class="fas fa-exclamation-triangle"></i>
+            Crimes
+        </button>
+        <button class="filter-btn btn-delit" data-filter="delit">
+            <i class="fas fa-exclamation-circle"></i>
+            Délits
+        </button>
+        <button class="filter-btn btn-contravention" data-filter="contravention">
+            <i class="fas fa-info-circle"></i>
+            Contraventions
+        </button>
+    </div>
+    <div class="container">
+        <aside class="sidebar">
+            <h3>
+                <i class="fas fa-folder-open"></i>
+                Catégories
+            </h3>
+            <ul id="categories">
+                <li data-category="all" class="active">
+                    <i class="fas fa-list-ul"></i>
+                    Toutes
+                </li>
+                <li data-category="personnelles">
+                    <i class="fas fa-user-injured"></i>
+                    Atteintes personnelles
+                </li>
+                <li data-category="propriete">
+                    <i class="fas fa-hand-holding-usd"></i>
+                    Atteintes aux biens
+                </li>
+                <li data-category="ordre">
+                    <i class="fas fa-bullhorn"></i>
+                    Troubles à l'ordre public
+                </li>
+                <li data-category="autorite">
+                    <i class="fas fa-user-shield"></i>
+                    Atteintes à l'autorité
+                </li>
+                <li data-category="honneur">
+                    <i class="fas fa-gavel"></i>
+                    Atteintes à l'honneur
+                </li>
+                <li data-category="route">
+                    <i class="fas fa-road"></i>
+                    Code de la route
+                </li>
+                <li data-category="nation">
+                    <i class="fas fa-flag-usa"></i>
+                    Atteintes à la nation
+                </li>
+                <li data-category="construction">
+                    <i class="fas fa-landmark"></i>
+                    Construction pénale
+                </li>
+            </ul>
+        </aside>
+        <main class="main-content" id="infractions-container">
+            <!-- Cartes générées dynamiquement -->
+        </main>
+    </div>
+    <!-- Popup Infraction -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup" id="popup">
+            <div class="popup-header">
+                <h3 class="popup-title" id="popupTitle">Titre de l'infraction</h3>
+                <button class="popup-close" id="popupClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="popup-content" id="popupContent">
+                <!-- Contenu généré dynamiquement -->
+            </div>
+        </div>
+    </div>
+    <!-- Popup Panier -->
+    <div class="cart-popup-overlay" id="cartPopupOverlay">
+        <div class="cart-popup" id="cartPopup">
+            <div class="cart-popup-header">
+                <h4 class="cart-popup-title">Panier des infractions</h4>
+                <button class="cart-popup-close" id="cartPopupClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="cart-popup-items" id="cartPopupItems">
+                <!-- Infractions sélectionnées -->
+            </div>
+            <div class="cart-popup-summary">
+                <div class="cart-popup-summary-item">
+                    <span>Total des peines :</span>
+                    <span class="cart-popup-summary-total" id="cartPopupTotalPeine">0 ans</span>
+                </div>
+                <div class="cart-popup-summary-item">
+                    <span>Total des amendes :</span>
+                    <span class="cart-popup-summary-total" id="cartPopupTotalAmende">0 $</span>
+                </div>
+                <div class="cart-popup-summary-item">
+                    <span>Peines complémentaires :</span>
+                    <span class="cart-popup-summary-total" id="cartPopupTotalComplementaire">Aucune</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bouton Panier -->
+    <button class="cart-toggle" id="cartToggle" data-count="0">
+        <i class="fas fa-balance-scale"></i>
+    </button>
+    <script>
+        // Base de données complète des infractions (basée sur les deux documents)
+        const infractions = [
+            // **PARTIE I: CONSTRUCTION PÉNALE**
+            {
+                id: 1,
+                title: "Récidive (Art. 110-2)",
+                category: ["construction"],
+                gravity: "delit",
+                definition: "La récidive est la réitération d'une infraction proche ou équivalente d'une infraction précédemment et définitivement condamnée. La 'Three strikes law' prescrit une peine double pour un récidiviste condamné à un crime ou délit sérieux ou violent, et triple en cas de récidive ultérieure.",
+                peine: { detention: 0, amende: 0, complementaire: ["Peine doublée ou triplée selon récidive"] },
+                aggravating: ["Récidive après condamnation pour crime violent", "Récidive multiple"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 2,
+                title: "Violation d'Habeas Corpus (Art. 110-3)",
+                category: ["construction"],
+                gravity: "delit",
+                definition: "Violation des règles d'Habeas Corpus (emprisonnement sans jugement, arrestation sans raison plausible, détention non contestable).",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["Violation par un officier public", "Détention arbitraire prolongée"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 3,
+                title: "Arrestation citoyenne (Art. 110-4)",
+                category: ["construction"],
+                gravity: "delit",
+                definition: "Dans les cas de crime ou de délit flagrant puni d'une peine d'emprisonnement, toute personne a qualité pour en appréhender l'auteur, co-auteur ou complice et le conduire devant un officier compétent.",
+                peine: { detention: 0, amende: 0, complementaire: [] },
+                aggravating: ["Usage excessif de la force", "Arrestation abusive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **PARTIE II: ATTEINTES PERSONNELLES**
+            {
+                id: 4,
+                title: "Meurtre au premier degré (Art. 210-1)",
+                category: ["personnelles"],
+                gravity: "crime",
+                definition: "Action de tuer volontairement un être humain en préparant celui-ci de quelconque manière, ou commis durant l'accomplissement de certains crimes (terrorisme, incendie, viol, etc.) ou si la victime représente la justice ou la loi.",
+                peine: { detention: 60, amende: 20000, complementaire: ["Peine de mort (sur décision du juge)"] },
+                aggravating: ["Victime mineure", "Commis avec torture", "En bande organisée"],
+                jurisprudence: "[P-2023-0601] TENNESSEE v. SHALL & MURPHY : La Cour juge que la détention provisoire est conforme si elle est motivée par des éléments suffisants."
+            },
+            {
+                id: 5,
+                title: "Meurtre au second degré (Art. 210-2)",
+                category: ["personnelles"],
+                gravity: "crime",
+                definition: "Action de tuer volontairement un être humain sans préméditation.",
+                peine: { detention: 40, amende: 20000, complementaire: ["Peine de mort (sur décision du juge)"] },
+                aggravating: ["Victime mineure", "Usage d'une arme", "Commis par un ascendant"],
+                jurisprudence: "[P-2022-0101] TENNESSEE v. SHALL & MURPHY : La Cour confirme la peine de mort pour meurtre avec préméditation."
+            },
+            {
+                id: 6,
+                title: "Homicide involontaire (Art. 210-3)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Causer la mort d'autrui par maladresse, imprudence, inattention, négligence ou manquement à une obligation de prudence.",
+                peine: { detention: 10, amende: 8000, complementaire: [] },
+                aggravating: ["Conduite sous influence", "Violation délibérée de la sécurité"],
+                jurisprudence: "[P-2023-0902] TENNESSEE v. PARKER : La Cour reconnaît la responsabilité pénale tant que la conscience n'est pas mise en cause."
+            },
+            {
+                id: 7,
+                title: "Mise en danger de la vie d'autrui (Art. 210-4)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Exposer directement autrui à un risque immédiat de mort ou de blessures graves par violation délibérée d'une obligation de sécurité.",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["Risque pour plusieurs personnes", "Usage d'un véhicule"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 8,
+                title: "Provocation au suicide (Art. 210-5)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Provoquer, aider, inciter ou assister une personne à se donner la mort.",
+                peine: { detention: 2, amende: 2500, complementaire: [] },
+                aggravating: ["Suicide effectif", "Sur mineur"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 9,
+                title: "Agression aggravée (Art. 220-1)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Représenter un danger pour l'intégrité physique d'autrui ou établir un contact physique offensant, provoquant ou hors consentement.",
+                peine: { detention: 15, amende: 20000, complementaire: [] },
+                aggravating: ["Blessures graves", "Usage d'une arme", "Victime : agent public"],
+                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante."
+            },
+            {
+                id: 10,
+                title: "Séquestration (Art. 220-2)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Priver illégalement une personne de sa liberté de déplacement, avec ou sans menace.",
+                peine: { detention: 15, amende: 10000, complementaire: [] },
+                aggravating: ["Usage d'une arme", "Blessures graves", "Enlèvement"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 11,
+                title: "Séquestration aggravée (Art. 220-2)",
+                category: ["personnelles"],
+                gravity: "crime",
+                definition: "Séquestration avec circonstances aggravantes (usage d'une arme, intention de blesser, etc.).",
+                peine: { detention: 25, amende: 15000, complementaire: [] },
+                aggravating: ["Usage d'une arme", "Blessures graves", "Enlèvement"],
+                jurisprudence: "[P-2021-0604] TENNESSEE v. SIMS, SMITH & COLE : La Cour précise les circonstances aggravantes pour séquestration."
+            },
+            {
+                id: 12,
+                title: "Torture (Art. 220-3)",
+                category: ["personnelles"],
+                gravity: "crime",
+                definition: "Infliger intentionnellement une douleur ou des souffrances aiguës physiques ou mentales à une personne.",
+                peine: { detention: 15, amende: 7500, complementaire: [] },
+                aggravating: ["Sur mineur ou personne vulnérable", "Usage d'instruments sadiques"],
+                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes."
+            },
+            {
+                id: 13,
+                title: "Maltraitance animale (Art. 2020-4)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Blesser volontairement un animal domestique ou sauvage lorsque la vie de l'homme n'est pas en danger.",
+                peine: { detention: 3, amende: 15000, complementaire: [] },
+                aggravating: ["Mort de l'animal", "Actes de cruauté extrême"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 14,
+                title: "Viol (Art. 230-2)",
+                category: ["personnelles"],
+                gravity: "crime",
+                definition: "Tout acte de pénétration sexuelle commis sur autrui par violence, contrainte, menace ou surprise.",
+                peine: { detention: 20, amende: 20000, complementaire: [] },
+                aggravating: ["Sur mineur", "Usage d'une arme", "En réunion"],
+                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes."
+            },
+            {
+                id: 15,
+                title: "Agression sexuelle (Art. 230-1)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Geste à caractère sexuel commis sans le consentement de la personne visée, avec ou sans contact physique.",
+                peine: { detention: 5, amende: 7500, complementaire: [] },
+                aggravating: ["Sur mineur", "Usage de violence", "Commis par une personne en autorité"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 16,
+                title: "Harcèlement (Art. 240-1)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Violence répétée verbale, physique ou psychologique.",
+                peine: { detention: 0, amende: 15000, complementaire: [] },
+                aggravating: ["Harcèlement sexuel", "Cyberharcèlement"],
+                jurisprudence: "[P-2021-0207] WILSTON v. AUGHER : La Cour considère le harcèlement comme une infraction si la victime exprime son malaise."
+            },
+            {
+                id: 17,
+                title: "Harcèlement sexuel (Art. 240-1)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Harcèlement commis de manière à obtenir des faveurs de nature sexuelle.",
+                peine: { detention: 5, amende: 20000, complementaire: [] },
+                aggravating: ["Sur mineur", "Abus de pouvoir"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 18,
+                title: "Diffamation (Art. 240-2)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Porter atteinte à l'honneur ou à la considération d'une personne par des moyens fallacieux et mensongers.",
+                peine: { detention: 0, amende: 15000, complementaire: [] },
+                aggravating: ["Diffamation publique", "À caractère raciste"],
+                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication."
+            },
+            {
+                id: 19,
+                title: "Menace (Art. 240-3)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Affirmer ou sous-entendre commettre un crime ou un délit contre une personne.",
+                peine: { detention: 0, amende: 2500, complementaire: [] },
+                aggravating: ["Menace de mort", "Avec une arme", "Répétée"],
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+            },
+            {
+                id: 20,
+                title: "Menace aggravée (Art. 240-3)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Menace commise avec une ou plusieurs circonstances aggravantes (arme, menace de mort, etc.).",
+                peine: { detention: 8, amende: 5000, complementaire: [] },
+                aggravating: ["Sur un représentant de la justice", "Menace de mort", "Avec une arme"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 21,
+                title: "Diffusion d'informations personnelles (Art. 240-4)",
+                category: ["personnelles"],
+                gravity: "delit",
+                definition: "Révéler des informations relatives à la vie privée d'une personne dépositaire de l'autorité publique.",
+                peine: { detention: 5, amende: 15000, complementaire: [] },
+                aggravating: ["Blessure causée à la victime ou sa famille"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **PARTIE III: ATTEINTES À L'ORDRE**
+            {
+                id: 22,
+                title: "Dissimulation du visage (Art. 320-1)",
+                category: ["ordre"],
+                gravity: "contravention",
+                definition: "Porter une tenue destinée à dissimuler plusieurs éléments de son visage dans l'espace public.",
+                peine: { detention: 0, amende: 2500, complementaire: [] },
+                aggravating: ["Refus de se conformer à une injonction"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 23,
+                title: "Émeute (Art. 320-2)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Trouble public avec actes de violence commis par un rassemblement de 5 personnes ou plus.",
+                peine: { detention: 10, amende: 20000, complementaire: [] },
+                aggravating: ["Usage d'une arme", "Incitation de mineurs"],
+                jurisprudence: "[P-2020-0701] VALLIUM v. TENNESSEE GOVERNMENT : La Cour limite les restrictions aux événements religieux pour des raisons de sécurité."
+            },
+            {
+                id: 24,
+                title: "Incitation à l'émeute (Art. 320-2)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Inciter d'autres personnes à l'émeute par la promotion d'un acte de violence.",
+                peine: { detention: 5, amende: 10000, complementaire: [] },
+                aggravating: ["Incitation de mineurs", "Usage de réseaux sociaux"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 25,
+                title: "Trouble à l'ordre public (Art. 320-3)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Entraver la liberté d'expression, du travail, d'association, de réunion ou de manifestation.",
+                peine: { detention: 1, amende: 3500, complementaire: [] },
+                aggravating: ["Usage de violences", "Destruction de biens"],
+                jurisprudence: "[P-2020-0208] TENNESSEE v. PRICE : La Cour estime que l'injure seule ne constitue pas un trouble à l'ordre public."
+            },
+            {
+                id: 26,
+                title: "Trouble à l'ordre public aggravé (Art. 320-3)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Trouble à l'ordre public commis de manière concertée et à l'aide de coups, violences ou dégradations.",
+                peine: { detention: 10, amende: 7500, complementaire: [] },
+                aggravating: ["Usage d'armes", "Destruction de biens publics"],
+                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante."
+            },
+            {
+                id: 27,
+                title: "Ivresse sur la voie publique (Art. 320-4)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Se trouver en état d'ivresse manifeste dans un lieu public.",
+                peine: { detention: 0, amende: 1000, complementaire: ["Garde à vue de 24h"] },
+                aggravating: ["Comportement agressif", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 28,
+                title: "Prostitution (Art. 320-5)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Proposer ou se livrer à des services ou activités de nature sexuelle tarifées.",
+                peine: { detention: 5, amende: 7500, complementaire: [] },
+                aggravating: ["Exploitation de mineurs", "Proxénétisme"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 29,
+                title: "Proxénétisme (Art. 320-5)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Solliciter, engager ou embaucher une personne à s'engager dans une activité de prostitution.",
+                peine: { detention: 5, amende: 7500, complementaire: [] },
+                aggravating: ["Exploitation de mineurs", "Usage de la contrainte"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 30,
+                title: "Abandon d'animal (Art. 320-6)",
+                category: ["ordre"],
+                gravity: "delit",
+                definition: "Abandonner un animal domestique ou apprivoisé sans assistance ni soins.",
+                peine: { detention: 0, amende: 5000, complementaire: [] },
+                aggravating: ["Abandon en milieu hostile", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **PARTIE IV: ATTEINTES AUX BIENS**
+            {
+                id: 31,
+                title: "Vol (Art. 410-1)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Obtenir ou contrôler sciemment un bien sans le consentement effectif du propriétaire.",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["En bande organisée", "Commis par un représentant de la loi", "Avec destruction"],
+                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le vol comme une infraction si l'usage normal de l'espace public est entravé."
+            },
+            {
+                id: 32,
+                title: "Vol aggravé (Art. 410-1)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Vol commis avec une ou plusieurs circonstances aggravantes (en bande organisée, par un représentant de la loi, etc.).",
+                peine: { detention: 15, amende: 7500, complementaire: [] },
+                aggravating: ["Usage d'une arme", "Violence", "Vol de biens culturels"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 33,
+                title: "Braquage (Art. 410-2)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Dérober un bien, de l'argent ou des informations confidentielles dans un commissariat, une banque, un convoi de fonds ou un commerce.",
+                peine: { detention: 20, amende: 15000, complementaire: [] },
+                aggravating: ["Usage d'une arme", "En bande organisée", "Prise d'otage"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 34,
+                title: "Extorsion (Art. 410-3)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Utiliser la coercition sur une personne pour obtenir des biens, services ou avantages.",
+                peine: { detention: 10, amende: 7500, complementaire: [] },
+                aggravating: ["Usage d'une arme", "Sur personne vulnérable", "En bande organisée"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 35,
+                title: "Escroquerie (Art. 410-4)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Tromper une personne pour lui faire remettre des fonds, des valeurs ou un bien quelconque.",
+                peine: { detention: 10, amende: 5000, complementaire: [] },
+                aggravating: ["Sur personne vulnérable", "Montant élevé", "Usage de faux documents"],
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+            },
+            {
+                id: 36,
+                title: "Abus de confiance (Art. 410-5)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Détourner des fonds, valeurs ou biens conférés à charge de les rendre ou d'en faire un usage déterminé.",
+                peine: { detention: 3, amende: 5000, complementaire: [] },
+                aggravating: ["Au préjudice d'une association humanitaire", "Sur personne vulnérable"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 37,
+                title: "Détournement de fonds (Art. 410-6)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Détourner ou soustraire des fonds publics ou privés conférés en raison de ses fonctions.",
+                peine: { detention: 10, amende: 40000, complementaire: [] },
+                aggravating: ["Fonds publics", "Montant supérieur à 100 000 $"],
+                jurisprudence: "[P-2022-0501] STEWART v. TNPD : La Cour affirme que la police comtale dirige les opérations avec le concours des forces municipales."
+            },
+            {
+                id: 38,
+                title: "Dégradation (Art. 420-1)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Dégradation ou détérioration d'un bien appartenant à autrui.",
+                peine: { detention: 0, amende: 2500, complementaire: [] },
+                aggravating: ["Bien détruit", "Bien public", "Tag ou graffiti"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 39,
+                title: "Effraction (Art. 420-2)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Forcement ou destruction d'un dispositif de fermeture ou de clôture.",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["Suivie d'un vol", "Blessures causées au propriétaire", "Dégâts matériels"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 40,
+                title: "Intrusion (Art. 420-3)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Entrer ou se maintenir dans une propriété sans le consentement du propriétaire.",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["Avec sollicitation d'une arme", "Dans le domaine privé d'une propriété publique"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 41,
+                title: "Atteinte à l'inviolabilité du domicile (Art. 420-4)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "S'introduire dans le domicile d'autrui contre le gré de celui-ci, par une personne chargée d'une mission de service public.",
+                peine: { detention: 10, amende: 25000, complementaire: [] },
+                aggravating: ["Usage de la force", "En bande organisée"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 42,
+                title: "Profanation (Art. 420-5)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Profaner un lieu de culte, une sépulture ou un objet vénéré.",
+                peine: { detention: 2, amende: 4500, complementaire: [] },
+                aggravating: ["Lors d'un service religieux", "Site historique ou protégé", "Implication de mineurs"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 43,
+                title: "Occupation illégale du domaine public (Art. 430-1)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Occuper l'espace public sans autorisation de l'administration.",
+                peine: { detention: 1, amende: 15000, complementaire: [] },
+                aggravating: ["Refus de quitter les lieux", "Usage de violences"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 44,
+                title: "Trouble anormal du voisinage (Art. 430-2)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Placer ou maintenir un objet envahissant le bien d'autrui.",
+                peine: { detention: 0, amende: 6000, complementaire: [] },
+                aggravating: ["Refus de régulariser", "Dégâts causés"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 45,
+                title: "Construction illégale (Art. 430-3)",
+                category: ["propriete"],
+                gravity: "delit",
+                definition: "Construire avec une emprise au sol > 10m² sans permis de construire.",
+                peine: { detention: 0, amende: 12000, complementaire: [] },
+                aggravating: ["Construction en zone protégée", "Refus de démolition"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **PARTIE V: ATTEINTES À LA NATION**
+            {
+                id: 46,
+                title: "Séparatisme (Art. 510-2)",
+                category: ["nation"],
+                gravity: "crime",
+                definition: "Volonté d'un groupe de se détacher politiquement d'une collectivité.",
+                peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort pour les dirigeants"] },
+                aggravating: ["Usage de la force", "Incitation à la violence"],
+                jurisprudence: "[P-2024-0204] SLATER v. BELFORT : La Cour établit que le procureur ne peut défendre une personne morale dans une procédure pénale."
+            },
+            {
+                id: 47,
+                title: "Coup d'État (Art. 510-3)",
+                category: ["nation"],
+                gravity: "crime",
+                definition: "Prise du pouvoir dans une ville, un comté ou un État par une minorité grâce à des moyens non constitutionnels.",
+                peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort (sans appel)"] },
+                aggravating: ["Usage de la force armée", "Atteinte aux infrastructures critiques"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 48,
+                title: "Terrorisme (Art. 350-1)",
+                category: ["nation"],
+                gravity: "crime",
+                definition: "Actes intentionnels visant à troubler gravement l'ordre public par l'intimidation ou la terreur.",
+                peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort (sans appel)"] },
+                aggravating: ["Usage d'armes de destruction massive", "Atteinte à des infrastructures critiques"],
+                jurisprudence: "[P-2023-0602] DERRICK v. BROWN : La Cour confirme la constitutionnalité de la loi sur les armes automatiques."
+            },
+            {
+                id: 49,
+                title: "Bande organisée (Art. 350-2)",
+                category: ["nation"],
+                gravity: "delit",
+                definition: "Groupement formé en vue de la préparation d'une ou plusieurs infractions.",
+                peine: { detention: 10, amende: 8000, complementaire: ["Suppression des droits de visite et d'appel"] },
+                aggravating: ["Infractions graves", "Usage d'armes"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **CODE DE LA ROUTE (Contraventions uniquement)**
+            {
+                id: 50,
+                title: "Stationnement interdit (Art. 210-1)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Stationner un véhicule empiétant sur la route ou sur un emplacement réservé.",
+                peine: { detention: 0, amende: 540, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Obstruction des secours", "Stationnement sur voie de bus"],
+                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le stationnement interdit comme une infraction si l'usage normal de l'espace public est entravé."
+            },
+            {
+                id: 51,
+                title: "Non-présentation des documents (Art. 210-2)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas présenter son permis de conduire, certificat d'immatriculation ou assurance lors d'un contrôle.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Conduite sans permis", "Véhicule non immatriculé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 52,
+                title: "Traversée illégale (Art. 210-3)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Traverser la route en dehors des passages piétons ou lorsque le feu est rouge.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["En présence d'enfants", "Visibilité réduite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 53,
+                title: "Défaut de gilet haute visibilité (Art. 210-4)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas présenter un gilet à haute visibilité lors d'un contrôle.",
+                peine: { detention: 0, amende: 200, complementaire: [] },
+                aggravating: ["Contrôle de nuit", "Absence de gilet dans le véhicule"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 54,
+                title: "Défaut de feux adéquats (Art. 310-1)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Circuler la nuit ou par mauvaise visibilité sans éclairage.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Visibilité très réduite", "Zone urbaine"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 55,
+                title: "Défaut de feux de détresse (Art. 310-2)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas utiliser les feux de détresse pour signaler une circulation à allure réduite.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Sur autoroute", "Visibilité réduite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 56,
+                title: "Usage abusif du klaxon (Art. 310-3)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Utiliser le klaxon en dehors des cas d'avertissement d'un danger imminent.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["En zone urbaine", "De nuit"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 57,
+                title: "Défaut d'usage de clignotants (Art. 310-3)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas signaler un changement de direction ou de voie avec les clignotants.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Changement de voie dangereux", "En agglomération"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 58,
+                title: "Défaut de plaque d'immatriculation (Art. 410-1)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Circuler sans plaque d'immatriculation visible et conforme.",
+                peine: { detention: 0, amende: 540, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Plaque illisible", "Véhicule volé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 59,
+                title: "Excès de vitesse (2-19 mph) (Art. 410-2)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Dépassement de la limite de vitesse de 2 à 19 mph.",
+                peine: { detention: 0, amende: 600, complementaire: [] },
+                aggravating: ["Zone scolaire", "Conditions météo dangereuses"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 60,
+                title: "Excès de vitesse eu égard aux circonstances (Art. 410-4)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas réduire son allure dans des situations spécifiques (approche de piétons, croisement, etc.).",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Zone scolaire", "Visibilité réduite"],
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+            },
+            {
+                id: 61,
+                title: "Excès de vitesse (20-39 mph) (Art. 510-1)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Dépassement de la limite de vitesse de 20 à 39 mph.",
+                peine: { detention: 0, amende: 1000, complementaire: [] },
+                aggravating: ["Dépassement ≥ 30 mph", "Zone scolaire"],
+                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable."
+            },
+            {
+                id: 62,
+                title: "Non-respect du feu tricolore (Art. 510-2)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas respecter un feu rouge ou un stop.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Accident causé", "Passage piéton engagé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 63,
+                title: "Non-respect du stop (Art. 510-3)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas marquer un temps d'arrêt à un panneau stop.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Accident causé", "Visibilité réduite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 64,
+                title: "Distraction au volant (Art. 510-4)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Utiliser un téléphone ou un dispositif de communication tenu en main en conduisant.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Accident causé", "Vitesse excessive"],
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+            },
+            {
+                id: 65,
+                title: "Sens interdit (Art. 510-5)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "S'engager dans une voie dont le sens de circulation est interdit.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["En agglomération", "Visibilité réduite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 66,
+                title: "Franchissement illégal de voie (Art. 510-6)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Empiéter sur une autre voie de circulation.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Dépassement dangereux", "Sur autoroute"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 67,
+                title: "Conduite alcoolisée (0,5-0,8 g/L) (Art. 510-7)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Conduire avec un taux d'alcool entre 0,5 et 0,8 g/L.",
+                peine: { detention: 0, amende: 800, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Récidive", "Accident causé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 68,
+                title: "Non-respect de la priorité aux piétons (Art. 510-8)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas respecter la priorité des piétons sur les passages cloutés.",
+                peine: { detention: 0, amende: 750, complementaire: [] },
+                aggravating: ["Accident causé", "Visibilité réduite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 69,
+                title: "Distance de sécurité insuffisante (Art. 510-9)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas maintenir une distance de sécurité raisonnable avec le véhicule précédent.",
+                peine: { detention: 0, amende: 540, complementaire: [] },
+                aggravating: ["Vitesse excessive", "Conditions météo dangereuses"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 70,
+                title: "Défaut de maîtrise du véhicule (Art. 510-11)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Conduire à une vitesse ou avec une accélération inadaptée aux conditions de circulation.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Vitesse excessive", "Conditions météo dangereuses"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 71,
+                title: "Véhicule non conforme (Art. 510-12)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Circuler avec un véhicule dont les dispositifs d'éclairage, de signalisation ou d'échappement ne sont pas conformes.",
+                peine: { detention: 0, amende: 800, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Défaut d'éclairage la nuit", "Échappement bruyant"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 72,
+                title: "Défaut de port du casque (Art. 510-13)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas porter de casque lors de la conduite d'un deux-roues motorisé.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Passager mineur", "Vitesse excessive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 73,
+                title: "Défaut de port de la ceinture (Art. 510-14)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas porter sa ceinture de sécurité en circulation.",
+                peine: { detention: 0, amende: 800, complementaire: [] },
+                aggravating: ["Passager mineur", "Conducteur professionnel"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 74,
+                title: "Excès de vitesse (+40 mph) (Art. 610-1)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Dépassement de la limite de vitesse de 40 mph ou plus.",
+                peine: { detention: 0, amende: 1500, complementaire: ["Suspension de permis"] },
+                aggravating: ["Dépassement ≥ 50 mph", "Zone urbaine"],
+                jurisprudence: "[P-2024-0912] SHALL & CO v. DCSO : La Cour rappelle qu'un procureur ne peut défendre une personne morale."
+            },
+            {
+                id: 75,
+                title: "Défaut d'assurance (Art. 610-2)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire un véhicule sans assurance valide.",
+                peine: { detention: 0, amende: 1500, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Récidive", "Accident causé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **CODE DE LA ROUTE (Délits uniquement)**
+            {
+                id: 76,
+                title: "Conduite en état d'ivresse (+0,8 g/L) (Art. 710-1)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire avec un taux d'alcool ≥ 0,8 g/L.",
+                peine: { detention: 2, amende: 4500, complementaire: ["Mise en fourrière", "Rétention du permis"] },
+                aggravating: ["Taux ≥ 1,2 g/L", "Récidive", "Accident causé"],
+                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable."
+            },
+            {
+                id: 77,
+                title: "Conduite dangereuse (Art. 710-2)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire avec un mépris volontaire pour la sécurité des personnes.",
+                peine: { detention: 1, amende: 3600, complementaire: ["Mise en fourrière", "Rétention du permis"] },
+                aggravating: ["Vitesse excessive", "Dépassement dangereux"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 78,
+                title: "Conduite sans permis (Art. 710-3)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire sans être titulaire du permis de conduire correspondant.",
+                peine: { detention: 1, amende: 3000, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Récidive", "Conduite en état d'ivresse"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 79,
+                title: "Conduite sous stupéfiants (Art. 710-4)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire sous l'emprise de stupéfiants.",
+                peine: { detention: 2, amende: 7000, complementaire: ["Mise en fourrière", "Rétention du permis"] },
+                aggravating: ["Concentration en alcool ≥ 0,4 g/L", "Récidive"],
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+            },
+            {
+                id: 80,
+                title: "Entrave à la circulation (Art. 710-5)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Placer un objet ou détériorer la signalisation pour entraver la circulation.",
+                peine: { detention: 2, amende: 4500, complementaire: ["Révocation du permis"] },
+                aggravating: ["Mise en danger délibérée", "Usage de moyens dangereux"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 81,
+                title: "Conduite malgré interdiction (Art. 710-6)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Conduire malgré une annulation, suspension ou interdiction de conduire.",
+                peine: { detention: 2, amende: 4500, complementaire: ["Mise en fourrière"] },
+                aggravating: ["Récidive", "Conduite en état d'ivresse"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 82,
+                title: "Refus d'obtempérer (Art. 310-2)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Refuser de s'arrêter à une sommation d'un officier de police.",
+                peine: { detention: 5, amende: 7500, complementaire: ["Suspension de permis"] },
+                aggravating: ["Fuite prolongée", "Mise en danger d'autrui"],
+                jurisprudence: "[P-2020-1201] Saisine pour avis du 30 décembre 2020 : La Cour limite les perquisitions sans mandat."
+            },
+            {
+                id: 83,
+                title: "Conduite avec gyrophare non autorisé (Art. 120-5)",
+                category: ["route"],
+                gravity: "delit",
+                definition: "Utiliser un gyrophare ou des lumières bleues/rouges sans autorisation.",
+                peine: { detention: 1, amende: 3000, complementaire: ["Confiscation du gyrophare"] },
+                aggravating: ["Usage pour commettre une infraction", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 84,
+                title: "Refus de céder le passage à un véhicule prioritaire (Art. 120-5)",
+                category: ["route"],
+                gravity: "contravention",
+                definition: "Ne pas faciliter le passage d'un véhicule en intervention (police, pompiers, ambulance).",
+                peine: { detention: 0, amende: 4000, complementaire: [] },
+                aggravating: ["Mise en danger du véhicule prioritaire", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **PARTIE VI: AUTORITÉ**
+            {
+                id: 85,
+                title: "Outrage à la justice (Art. 330-1)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Manifester une désobéissance ou un manque de respect envers les juridictions ou interférer dans le processus judiciaire.",
+                peine: { detention: 0, amende: 1000, complementaire: ["Exclusion temporaire des tribunaux"] },
+                aggravating: ["Outrage en audience", "Menace contre un magistrat"],
+                jurisprudence: "[P-2025-2401] WANG V. TENNESSEE : La Cour considère que les comptes de réseaux sociaux publics sont des forums soumis au 1er amendement."
+            },
+            {
+                id: 86,
+                title: "Parjure (Art. 330-2)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Faire un témoignage mensonger sous serment devant une juridiction ou un officier de police.",
+                peine: { detention: 5, amende: 5000, complementaire: ["Interdiction de témoigner"] },
+                aggravating: ["Parjure entraînant une condamnation injustifiée", "Dans une affaire criminelle"],
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+            },
+            {
+                id: 87,
+                title: "Évasion (Art. 330-3)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Se soustraire à la garde à laquelle un détenu est soumis.",
+                peine: { detention: 10, amende: 15000, complementaire: [] },
+                aggravating: ["Par violence ou effraction", "Avec complicité extérieure"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 88,
+                title: "Entrave à la justice (Art. 330-4)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Interférer dans le travail des policiers, magistrats ou agents dépositaires de l'autorité publique.",
+                peine: { detention: 10, amende: 7500, complementaire: [] },
+                aggravating: ["Dissimulation de preuves", "Menace contre un témoin"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 89,
+                title: "Recel de malfaiteur (Art. 330-5)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Fournir un logement ou des moyens d'existence à un auteur de crime ou de terrorisme.",
+                peine: { detention: 3, amende: 2500, complementaire: [] },
+                aggravating: ["Recel d'un terroriste", "Aide à la fuite"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 90,
+                title: "Recel de cadavre (Art. 330-6)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Receler ou cacher le cadavre d'une personne victime.",
+                peine: { detention: 5, amende: 6500, complementaire: [] },
+                aggravating: ["Victime d'un homicide", "Dissimulation prolongée"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 91,
+                title: "Non-dénonciation d'une infraction (Art. 330-7)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Ne pas informer les autorités d'une infraction dont on a connaissance et dont les effets peuvent être limités.",
+                peine: { detention: 3, amende: 2500, complementaire: [] },
+                aggravating: ["Infraction grave", "Complicité passive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 92,
+                title: "Procédure abusive (Art. 330-8)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Agir en justice de manière dilatoire ou abusive.",
+                peine: { detention: 0, amende: 10000, complementaire: [] },
+                aggravating: ["Multiplicité de procédures", "Intention de nuire"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 93,
+                title: "Dissimulation de preuve (Art. 330-9)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Receler, cacher, modifier ou détruire une preuve dans le cadre d'une enquête ou d'un jugement.",
+                peine: { detention: 10, amende: 7500, complementaire: [] },
+                aggravating: ["Par un officier de justice", "Preuve cruciale"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 94,
+                title: "Fraude (Art. 330-10)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Tromperie ou acte de mauvaise foi visant à léser une personne physique ou morale.",
+                peine: { detention: 5, amende: 10000, complementaire: [] },
+                aggravating: ["Fraude contre un organisme d'État", "Montant élevé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 95,
+                title: "Prise illégale d'intérêt (Art. 330-11)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Prendre un avantage personnel dans une opération dont on a la charge de surveillance ou d'administration.",
+                peine: { detention: 5, amende: 15000, complementaire: [] },
+                aggravating: ["Par un haut fonctionnaire", "Montant élevé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 96,
+                title: "Trafic d'influence (Art. 330-12)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Abuser de son influence pour obtenir une faveur ou une décision en échange d'un avantage.",
+                peine: { detention: 5, amende: 20000, complementaire: [] },
+                aggravating: ["Corruption d'un haut fonctionnaire", "Montant élevé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 97,
+                title: "Usurpation d'identité (Art. 340-1)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Usurper l'identité d'un tiers ou se faire passer pour un représentant de la loi.",
+                peine: { detention: 5, amende: 3000, complementaire: [] },
+                aggravating: ["Usurpation d'un officier de police", "Pour commettre une infraction"],
+                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication."
+            },
+            {
+                id: 98,
+                title: "Faux et usage de faux (Art. 340-2)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Fabriquer ou utiliser de faux documents pour obtenir un avantage.",
+                peine: { detention: 5, amende: 2500, complementaire: [] },
+                aggravating: ["Usage pour commettre une infraction", "Faux document officiel"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 99,
+                title: "Corruption (Art. 340-3)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Soliciter ou accepter un don ou un avantage en échange d'un acte lié à ses fonctions.",
+                peine: { detention: 10, amende: 15000, complementaire: [] },
+                aggravating: ["Corruption d'un haut fonctionnaire", "Montant élevé"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 100,
+                title: "Abus de pouvoir (Art. 340-4)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Ordonner ou accomplir arbitrairement un acte attentatoire à la liberté individuelle par un représentant de la loi.",
+                peine: { detention: 5, amende: 5000, complementaire: [] },
+                aggravating: ["Atteinte grave aux libertés", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 101,
+                title: "Fausse monnaie (Art. 340-5)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Contrefaire ou falsifier des pièces de monnaie ou des billets de banque.",
+                peine: { detention: 10, amende: 20000, complementaire: [] },
+                aggravating: ["Faux de grande ampleur", "En bande organisée"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 102,
+                title: "Atteinte au secret professionnel (Art. 340-6)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Révéler une information confidentielle par une personne dépositaire du secret professionnel.",
+                peine: { detention: 2, amende: 5000, complementaire: [] },
+                aggravating: ["Information relative à la justice ou à l'État", "Préjudice grave"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 103,
+                title: "Modification de preuve (Art. 340-7)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Modifier l'état des lieux d'un crime ou détruire des preuves pour entraver la manifestation de la vérité.",
+                peine: { detention: 3, amende: 45000, complementaire: [] },
+                aggravating: ["Par un officier de justice", "Preuve cruciale"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 104,
+                title: "Exercice illégal du droit (Art. 340-8)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Proposer des services d'assistance juridique sans être inscrit au barreau.",
+                peine: { detention: 5, amende: 20000, complementaire: [] },
+                aggravating: ["Usage de faux diplômes", "Préjudice causé à un client"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            // **CODE DE PROCÉDURE PÉNALE**
+            {
+                id: 105,
+                title: "Refus de se soumettre à l'injonction d'un officier (Art. 310-1)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Refuser de se soumettre à une injonction légale d'un officier de police.",
+                peine: { detention: 5, amende: 7500, complementaire: [] },
+                aggravating: ["Résistance avec violence", "Mise en danger d'autrui"],
+                jurisprudence: "[P-2020-1011] STEWART v. KYLE : La Cour considère qu'un représentant de l'État doit avoir accès aux informations relevant de sa compétence."
+            },
+            {
+                id: 106,
+                title: "Délit de fuite (Art. 310-3)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Prendre la fuite après un accident ou une infraction pour échapper à sa responsabilité.",
+                peine: { detention: 5, amende: 7500, complementaire: [] },
+                aggravating: ["Accident avec blessures", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 107,
+                title: "Entrave aux mesures d'assistance (Art. 310-4)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Entraver l'arrivée des secours ou omettre de porter assistance à une personne en danger.",
+                peine: { detention: 2, amende: 5000, complementaire: [] },
+                aggravating: ["Mise en danger des secours", "Décès de la victime"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 108,
+                title: "Fausse alerte (Art. 310-5)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Déclencher une alerte d'urgence sans raison valable, causant une panique ou une mobilisation inutile des secours.",
+                peine: { detention: 0, amende: 5000, complementaire: [] },
+                aggravating: ["Mobilisation importante des secours", "Récidive"],
+                jurisprudence: "Aucune jurisprudence spécifique."
+            },
+            {
+                id: 109,
+                title: "Refus d'identification (Art. 310-6)",
+                category: ["autorite"],
+                gravity: "delit",
+                definition: "Refuser de s'identifier à un représentant des forces de l'ordre lors d'une arrestation ou d'un soupçon d'infraction.",
+                peine: { detention: 1, amende: 5000, complementaire: [] },
+                aggravating: ["Résistance à l'arrestation", "Fausse identité"],
+                jurisprudence: "[P-2021-1021] TENNESSEE v. CART : La Cour considère que le non-respect des ordonnances judiciaires est un manquement grave."
+            }
+        ];
+        // État des infractions sélectionnées
+        let selectedInfractions = [];
+        // Fonction pour afficher les infractions
+        function displayInfractions(infractionsToDisplay) {
+            const container = document.getElementById('infractions-container');
+            container.innerHTML = '';
+            if (infractionsToDisplay.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Aucune infraction trouvée.
+                    </div>
+                `;
+                return;
+            }
+            infractionsToDisplay.forEach(infraction => {
+                const isSelected = selectedInfractions.includes(infraction.id);
+                const card = document.createElement('div');
+                card.className = `infraction-card ${infraction.gravity}`;
+                card.innerHTML = `
+                    <div class="card-header">
+                        <input type="checkbox" class="card-checkbox" ${isSelected ? 'checked' : ''} data-id="${infraction.id}">
+                        <h3 class="card-title">${infraction.title}</h3>
+                        <span class="gravity-badge badge-${infraction.gravity}">${infraction.gravity.charAt(0).toUpperCase() + infraction.gravity.slice(1)}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+                // Gestion des cases à cocher
+                const checkbox = card.querySelector('.card-checkbox');
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked && !selectedInfractions.includes(infraction.id)) {
+                        selectedInfractions.push(infraction.id);
+                    } else if (!checkbox.checked) {
+                        selectedInfractions = selectedInfractions.filter(id => id !== infraction.id);
+                    }
+                    updateCartBadge();
+                    updateCartPopup();
+                });
+                // Gestion du clic sur la carte
+                card.addEventListener('click', (e) => {
+                    if (e.target !== checkbox) {
+                        openInfractionPopup(infraction);
+                    }
+                });
+            });
+        }
+        // Ouvrir la popup d'infraction
+        function openInfractionPopup(infraction) {
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popup = document.getElementById('popup');
+            const popupTitle = document.getElementById('popupTitle');
+            const popupContent = document.getElementById('popupContent');
+            popupTitle.textContent = infraction.title;
+            popupContent.innerHTML = `
+                <div class="popup-section">
+                    <h4><i class="fas fa-book"></i> Définition</h4>
+                    <p>${infraction.definition}</p>
+                </div>
+                <div class="popup-section">
+                    <h4><i class="fas fa-gavel"></i> Peine de base</h4>
+                    <p><strong>${infraction.peine.detention > 0 ? infraction.peine.detention + ' ans de détention' : 'Pas de détention'}</strong> et <strong>${infraction.peine.amende} $ d'amende</strong>.</p>
+                    ${infraction.peine.complementaire.length > 0 ? `
+                        <h4 style="margin-top: 1.5rem;"><i class="fas fa-exclamation-triangle"></i> Peines complémentaires</h4>
+                        <ul>${infraction.peine.complementaire.map(item => `<li>${item}</li>`).join('')}</ul>
+                    ` : ''}
+                </div>
+                <div class="popup-section">
+                    <h4><i class="fas fa-warning"></i> Circonstances aggravantes</h4>
+                    <ul>${infraction.aggravating.map(item => `<li>${item}</li>`).join('')}</ul>
+                </div>
+                ${infraction.jurisprudence ? `
+                <div class="popup-section">
+                    <h4><i class="fas fa-balance-scale"></i> Jurisprudence</h4>
+                    <p>${infraction.jurisprudence}</p>
+                </div>
+                ` : ''}
+            `;
+            popupOverlay.classList.add('active');
+            setTimeout(() => {
+                popup.classList.add('active');
+            }, 10);
+        }
+        // Fermer la popup d'infraction
+        function closeInfractionPopup() {
+            const popupOverlay = document.getElementById('popupOverlay');
+            const popup = document.getElementById('popup');
+            popup.classList.remove('active');
+            setTimeout(() => {
+                popupOverlay.classList.remove('active');
+            }, 300);
+        }
+        // Mettre à jour le badge du panier
+        function updateCartBadge() {
+            const cartToggle = document.getElementById('cartToggle');
+            cartToggle.setAttribute('data-count', selectedInfractions.length);
+        }
+        // Mettre à jour la popup du panier
+        function updateCartPopup() {
+            const cartPopupItems = document.getElementById('cartPopupItems');
+            const cartPopupTotalPeine = document.getElementById('cartPopupTotalPeine');
+            const cartPopupTotalAmende = document.getElementById('cartPopupTotalAmende');
+            const cartPopupTotalComplementaire = document.getElementById('cartPopupTotalComplementaire');
+            cartPopupItems.innerHTML = '';
+            let totalDetention = 0;
+            let totalAmende = 0;
+            let complementaires = [];
+            if (selectedInfractions.length === 0) {
+                cartPopupItems.innerHTML = '<p style="text-align: center; color: #7f8c8d;">Aucune infraction sélectionnée.</p>';
+                cartPopupTotalPeine.textContent = '0 ans';
+                cartPopupTotalAmende.textContent = '0 $';
+                cartPopupTotalComplementaire.textContent = 'Aucune';
+                return;
+            }
+            selectedInfractions.forEach(id => {
+                const infraction = infractions.find(i => i.id === id);
+                if (infraction) {
+                    totalDetention += infraction.peine.detention;
+                    totalAmende += infraction.peine.amende;
+                    complementaires.push(...infraction.peine.complementaire);
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'cart-popup-item';
+                    cartItem.innerHTML = `
+                        <div class="cart-popup-item-info">
+                            <h5>${infraction.title}</h5>
+                            <p style="font-size: 0.9rem; color: #7f8c8d;">${infraction.gravity}</p>
+                        </div>
+                        <div class="cart-popup-item-peine">
+                            <p><strong>${infraction.peine.detention} ans</strong></p>
+                            <p><strong>${infraction.peine.amende} $</strong></p>
+                        </div>
+                    `;
+                    cartPopupItems.appendChild(cartItem);
+                }
+            });
+            cartPopupTotalPeine.textContent = `${totalDetention} ans`;
+            cartPopupTotalAmende.textContent = `${totalAmende} $`;
+            const uniqueComplementaires = [...new Set(complementaires)];
+            if (uniqueComplementaires.length > 0) {
+                cartPopupTotalComplementaire.innerHTML = uniqueComplementaires.map(item => `<span style="display: block; margin: 0.3rem 0;">• ${item}</span>`).join('');
+            } else {
+                cartPopupTotalComplementaire.textContent = 'Aucune';
+            }
+        }
+        // Ouvrir la popup du panier
+        function openCartPopup() {
+            const cartPopupOverlay = document.getElementById('cartPopupOverlay');
+            const cartPopup = document.getElementById('cartPopup');
+            updateCartPopup();
+            cartPopupOverlay.classList.add('active');
+            setTimeout(() => {
+                cartPopup.classList.add('active');
+            }, 10);
+        }
+        // Fermer la popup du panier
+        function closeCartPopup() {
+            const cartPopupOverlay = document.getElementById('cartPopupOverlay');
+            const cartPopup = document.getElementById('cartPopup');
+            cartPopup.classList.remove('active');
+            setTimeout(() => {
+                cartPopupOverlay.classList.remove('active');
+            }, 300);
+        }
+        // Filtrer les infractions
+        function filterInfractions() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const activeCategory = document.querySelector('.sidebar li.active')?.dataset.category;
+            let filteredInfractions;
+            // Si le filtre "contravention" est actif, on n'affiche que les contraventions
+            if (activeFilter === 'contravention') {
+                filteredInfractions = infractions.filter(infraction =>
+                    infraction.gravity === 'contravention' &&
+                    (!activeCategory || activeCategory === 'all' || infraction.category.includes(activeCategory)) &&
+                    (infraction.title.toLowerCase().includes(searchTerm) ||
+                     infraction.definition.toLowerCase().includes(searchTerm) ||
+                     infraction.aggravating.some(item => item.toLowerCase().includes(searchTerm)))
+                );
+            }
+            // Si le filtre "all", "crime" ou "delit" est actif, on exclut les contraventions
+            else {
+                filteredInfractions = infractions.filter(infraction => {
+                    const matchesSearch = infraction.title.toLowerCase().includes(searchTerm) ||
+                                          infraction.definition.toLowerCase().includes(searchTerm) ||
+                                          infraction.aggravating.some(item => item.toLowerCase().includes(searchTerm));
+                    const matchesGravity = activeFilter === 'all' || infraction.gravity === activeFilter;
+                    const matchesCategory = !activeCategory || activeCategory === 'all' || infraction.category.includes(activeCategory);
+                    return matchesSearch && matchesGravity && matchesCategory && infraction.gravity !== 'contravention';
+                });
+            }
+            displayInfractions(filteredInfractions);
+        }
+        // Événements
+        document.getElementById('search').addEventListener('input', filterInfractions);
+        document.getElementById('search-btn').addEventListener('click', filterInfractions);
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                filterInfractions();
+            });
+        });
+        document.querySelectorAll('.sidebar li').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.sidebar li').forEach(li => li.classList.remove('active'));
+                item.classList.add('active');
+                filterInfractions();
+            });
+        });
+        // Gestion des popups
+        document.getElementById('popupClose').addEventListener('click', closeInfractionPopup);
+        document.getElementById('popupOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('popupOverlay')) {
+                closeInfractionPopup();
+            }
+        });
+        document.getElementById('cartToggle').addEventListener('click', openCartPopup);
+        document.getElementById('cartPopupClose').addEventListener('click', closeCartPopup);
+        document.getElementById('cartPopupOverlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('cartPopupOverlay')) {
+                closeCartPopup();
+            }
+        });
+        // Affichage initial (par défaut : toutes les infractions SAUF les contraventions)
+        filterInfractions();
+    </script>
+</body>
+</html>
