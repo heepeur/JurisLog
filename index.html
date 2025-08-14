@@ -448,6 +448,18 @@
             color: #7f8c8d;
             font-style: italic;
         }
+        .cart-item-options {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .cart-item-option {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+        }
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
@@ -628,7 +640,9 @@
                 definition: "La récidive est la réitération d'une infraction proche ou équivalente d'une infraction précédemment et définitivement condamnée. La 'Three strikes law' prescrit une peine double pour un récidiviste condamné à un crime ou délit sérieux ou violent, et triple en cas de récidive ultérieure.",
                 peine: { detention: 0, amende: 0, complementaire: ["Peine doublée ou triplée selon récidive"] },
                 aggravating: ["Récidive après condamnation pour crime violent", "Récidive multiple"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: false
             },
             {
                 id: 2,
@@ -638,7 +652,9 @@
                 definition: "Violation des règles d'Habeas Corpus (emprisonnement sans jugement, arrestation sans raison plausible, détention non contestable).",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["Violation par un officier public", "Détention arbitraire prolongée"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: true
             },
             {
                 id: 3,
@@ -648,7 +664,9 @@
                 definition: "Dans les cas de crime ou de délit flagrant puni d'une peine d'emprisonnement, toute personne a qualité pour en appréhender l'auteur, co-auteur ou complice et le conduire devant un officier compétent.",
                 peine: { detention: 0, amende: 0, complementaire: [] },
                 aggravating: ["Usage excessif de la force", "Arrestation abusive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: true
             },
             // **PARTIE II: ATTEINTES PERSONNELLES**
             {
@@ -659,7 +677,9 @@
                 definition: "Action de tuer volontairement un être humain en préparant celui-ci de quelconque manière, ou commis durant l'accomplissement de certains crimes (terrorisme, incendie, viol, etc.) ou si la victime représente la justice ou la loi.",
                 peine: { detention: 60, amende: 20000, complementaire: ["Peine de mort (sur décision du juge)"] },
                 aggravating: ["Victime mineure", "Commis avec torture", "En bande organisée"],
-                jurisprudence: "[P-2023-0601] TENNESSEE v. SHALL & MURPHY : La Cour juge que la détention provisoire est conforme si elle est motivée par des éléments suffisants."
+                jurisprudence: "[P-2023-0601] TENNESSEE v. SHALL & MURPHY : La Cour juge que la détention provisoire est conforme si elle est motivée par des éléments suffisants.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 5,
@@ -669,7 +689,9 @@
                 definition: "Action de tuer volontairement un être humain sans préméditation.",
                 peine: { detention: 40, amende: 20000, complementaire: ["Peine de mort (sur décision du juge)"] },
                 aggravating: ["Victime mineure", "Usage d'une arme", "Commis par un ascendant"],
-                jurisprudence: "[P-2022-0101] TENNESSEE v. SHALL & MURPHY : La Cour confirme la peine de mort pour meurtre avec préméditation."
+                jurisprudence: "[P-2022-0101] TENNESSEE v. SHALL & MURPHY : La Cour confirme la peine de mort pour meurtre avec préméditation.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 6,
@@ -679,7 +701,9 @@
                 definition: "Causer la mort d'autrui par maladresse, imprudence, inattention, négligence ou manquement à une obligation de prudence.",
                 peine: { detention: 10, amende: 8000, complementaire: [] },
                 aggravating: ["Conduite sous influence", "Violation délibérée de la sécurité"],
-                jurisprudence: "[P-2023-0902] TENNESSEE v. PARKER : La Cour reconnaît la responsabilité pénale tant que la conscience n'est pas mise en cause."
+                jurisprudence: "[P-2023-0902] TENNESSEE v. PARKER : La Cour reconnaît la responsabilité pénale tant que la conscience n'est pas mise en cause.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 7,
@@ -689,7 +713,9 @@
                 definition: "Exposer directement autrui à un risque immédiat de mort ou de blessures graves par violation délibérée d'une obligation de sécurité.",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["Risque pour plusieurs personnes", "Usage d'un véhicule"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 8,
@@ -699,7 +725,9 @@
                 definition: "Provoquer, aider, inciter ou assister une personne à se donner la mort.",
                 peine: { detention: 2, amende: 2500, complementaire: [] },
                 aggravating: ["Suicide effectif", "Sur mineur"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 9,
@@ -709,7 +737,9 @@
                 definition: "Représenter un danger pour l'intégrité physique d'autrui ou établir un contact physique offensant, provoquant ou hors consentement.",
                 peine: { detention: 15, amende: 20000, complementaire: [] },
                 aggravating: ["Blessures graves", "Usage d'une arme", "Victime : agent public"],
-                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante."
+                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 10,
@@ -719,7 +749,9 @@
                 definition: "Priver illégalement une personne de sa liberté de déplacement, avec ou sans menace.",
                 peine: { detention: 15, amende: 10000, complementaire: [] },
                 aggravating: ["Usage d'une arme", "Blessures graves", "Enlèvement"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 11,
@@ -729,7 +761,9 @@
                 definition: "Séquestration avec circonstances aggravantes (usage d'une arme, intention de blesser, etc.).",
                 peine: { detention: 25, amende: 15000, complementaire: [] },
                 aggravating: ["Usage d'une arme", "Blessures graves", "Enlèvement"],
-                jurisprudence: "[P-2021-0604] TENNESSEE v. SIMS, SMITH & COLE : La Cour précise les circonstances aggravantes pour séquestration."
+                jurisprudence: "[P-2021-0604] TENNESSEE v. SIMS, SMITH & COLE : La Cour précise les circonstances aggravantes pour séquestration.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 12,
@@ -739,7 +773,9 @@
                 definition: "Infliger intentionnellement une douleur ou des souffrances aiguës physiques ou mentales à une personne.",
                 peine: { detention: 15, amende: 7500, complementaire: [] },
                 aggravating: ["Sur mineur ou personne vulnérable", "Usage d'instruments sadiques"],
-                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes."
+                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 13,
@@ -749,7 +785,9 @@
                 definition: "Blesser volontairement un animal domestique ou sauvage lorsque la vie de l'homme n'est pas en danger.",
                 peine: { detention: 3, amende: 15000, complementaire: [] },
                 aggravating: ["Mort de l'animal", "Actes de cruauté extrême"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 14,
@@ -759,7 +797,9 @@
                 definition: "Tout acte de pénétration sexuelle commis sur autrui par violence, contrainte, menace ou surprise.",
                 peine: { detention: 20, amende: 20000, complementaire: [] },
                 aggravating: ["Sur mineur", "Usage d'une arme", "En réunion"],
-                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes."
+                jurisprudence: "[P-2023-0703] TENNESSEE v. NORKOV : La Cour reconnaît la peine de mort pour viol avec circonstances aggravantes.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 15,
@@ -769,7 +809,9 @@
                 definition: "Geste à caractère sexuel commis sans le consentement de la personne visée, avec ou sans contact physique.",
                 peine: { detention: 5, amende: 7500, complementaire: [] },
                 aggravating: ["Sur mineur", "Usage de violence", "Commis par une personne en autorité"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 16,
@@ -779,7 +821,9 @@
                 definition: "Violence répétée verbale, physique ou psychologique.",
                 peine: { detention: 0, amende: 15000, complementaire: [] },
                 aggravating: ["Harcèlement sexuel", "Cyberharcèlement"],
-                jurisprudence: "[P-2021-0207] WILSTON v. AUGHER : La Cour considère le harcèlement comme une infraction si la victime exprime son malaise."
+                jurisprudence: "[P-2021-0207] WILSTON v. AUGHER : La Cour considère le harcèlement comme une infraction si la victime exprime son malaise.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 17,
@@ -789,7 +833,9 @@
                 definition: "Harcèlement commis de manière à obtenir des faveurs de nature sexuelle.",
                 peine: { detention: 5, amende: 20000, complementaire: [] },
                 aggravating: ["Sur mineur", "Abus de pouvoir"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 18,
@@ -799,7 +845,9 @@
                 definition: "Porter atteinte à l'honneur ou à la considération d'une personne par des moyens fallacieux et mensongers.",
                 peine: { detention: 0, amende: 15000, complementaire: [] },
                 aggravating: ["Diffamation publique", "À caractère raciste"],
-                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication."
+                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 19,
@@ -809,7 +857,9 @@
                 definition: "Affirmer ou sous-entendre commettre un crime ou un délit contre une personne.",
                 peine: { detention: 0, amende: 2500, complementaire: [] },
                 aggravating: ["Menace de mort", "Avec une arme", "Répétée"],
-                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 20,
@@ -819,7 +869,9 @@
                 definition: "Menace commise avec une ou plusieurs circonstances aggravantes (arme, menace de mort, etc.).",
                 peine: { detention: 8, amende: 5000, complementaire: [] },
                 aggravating: ["Sur un représentant de la justice", "Menace de mort", "Avec une arme"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 21,
@@ -829,7 +881,9 @@
                 definition: "Révéler des informations relatives à la vie privée d'une personne dépositaire de l'autorité publique.",
                 peine: { detention: 5, amende: 15000, complementaire: [] },
                 aggravating: ["Blessure causée à la victime ou sa famille"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             // **PARTIE III: ATTEINTES À L'ORDRE**
             {
@@ -840,7 +894,9 @@
                 definition: "Porter une tenue destinée à dissimuler plusieurs éléments de son visage dans l'espace public.",
                 peine: { detention: 0, amende: 2500, complementaire: [] },
                 aggravating: ["Refus de se conformer à une injonction"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 23,
@@ -850,7 +906,9 @@
                 definition: "Trouble public avec actes de violence commis par un rassemblement de 5 personnes ou plus.",
                 peine: { detention: 10, amende: 20000, complementaire: [] },
                 aggravating: ["Usage d'une arme", "Incitation de mineurs"],
-                jurisprudence: "[P-2020-0701] VALLIUM v. TENNESSEE GOVERNMENT : La Cour limite les restrictions aux événements religieux pour des raisons de sécurité."
+                jurisprudence: "[P-2020-0701] VALLIUM v. TENNESSEE GOVERNMENT : La Cour limite les restrictions aux événements religieux pour des raisons de sécurité.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 24,
@@ -860,7 +918,9 @@
                 definition: "Inciter d'autres personnes à l'émeute par la promotion d'un acte de violence.",
                 peine: { detention: 5, amende: 10000, complementaire: [] },
                 aggravating: ["Incitation de mineurs", "Usage de réseaux sociaux"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 25,
@@ -870,7 +930,9 @@
                 definition: "Entraver la liberté d'expression, du travail, d'association, de réunion ou de manifestation.",
                 peine: { detention: 1, amende: 3500, complementaire: [] },
                 aggravating: ["Usage de violences", "Destruction de biens"],
-                jurisprudence: "[P-2020-0208] TENNESSEE v. PRICE : La Cour estime que l'injure seule ne constitue pas un trouble à l'ordre public."
+                jurisprudence: "[P-2020-0208] TENNESSEE v. PRICE : La Cour estime que l'injure seule ne constitue pas un trouble à l'ordre public.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 26,
@@ -880,7 +942,9 @@
                 definition: "Trouble à l'ordre public commis de manière concertée et à l'aide de coups, violences ou dégradations.",
                 peine: { detention: 10, amende: 7500, complementaire: [] },
                 aggravating: ["Usage d'armes", "Destruction de biens publics"],
-                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante."
+                jurisprudence: "[P-2021-0603] TENNESSEE v. MEADORS & LOWRENCE : La Cour considère le trouble à l'ordre public comme une circonstance aggravante.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 27,
@@ -890,7 +954,9 @@
                 definition: "Se trouver en état d'ivresse manifeste dans un lieu public.",
                 peine: { detention: 0, amende: 1000, complementaire: ["Garde à vue de 24h"] },
                 aggravating: ["Comportement agressif", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: false
             },
             {
                 id: 28,
@@ -900,7 +966,9 @@
                 definition: "Proposer ou se livrer à des services ou activités de nature sexuelle tarifées.",
                 peine: { detention: 5, amende: 7500, complementaire: [] },
                 aggravating: ["Exploitation de mineurs", "Proxénétisme"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 29,
@@ -910,7 +978,9 @@
                 definition: "Solliciter, engager ou embaucher une personne à s'engager dans une activité de prostitution.",
                 peine: { detention: 5, amende: 7500, complementaire: [] },
                 aggravating: ["Exploitation de mineurs", "Usage de la contrainte"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 30,
@@ -920,7 +990,9 @@
                 definition: "Abandonner un animal domestique ou apprivoisé sans assistance ni soins.",
                 peine: { detention: 0, amende: 5000, complementaire: [] },
                 aggravating: ["Abandon en milieu hostile", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: false
             },
             // **PARTIE IV: ATTEINTES AUX BIENS**
             {
@@ -931,7 +1003,9 @@
                 definition: "Obtenir ou contrôler sciemment un bien sans le consentement effectif du propriétaire.",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["En bande organisée", "Commis par un représentant de la loi", "Avec destruction"],
-                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le vol comme une infraction si l'usage normal de l'espace public est entravé."
+                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le vol comme une infraction si l'usage normal de l'espace public est entravé.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 32,
@@ -941,7 +1015,9 @@
                 definition: "Vol commis avec une ou plusieurs circonstances aggravantes (en bande organisée, par un représentant de la loi, etc.).",
                 peine: { detention: 15, amende: 7500, complementaire: [] },
                 aggravating: ["Usage d'une arme", "Violence", "Vol de biens culturels"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 33,
@@ -951,7 +1027,9 @@
                 definition: "Dérober un bien, de l'argent ou des informations confidentielles dans un commissariat, une banque, un convoi de fonds ou un commerce.",
                 peine: { detention: 20, amende: 15000, complementaire: [] },
                 aggravating: ["Usage d'une arme", "En bande organisée", "Prise d'otage"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 34,
@@ -961,7 +1039,9 @@
                 definition: "Utiliser la coercition sur une personne pour obtenir des biens, services ou avantages.",
                 peine: { detention: 10, amende: 7500, complementaire: [] },
                 aggravating: ["Usage d'une arme", "Sur personne vulnérable", "En bande organisée"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 35,
@@ -971,7 +1051,9 @@
                 definition: "Tromper une personne pour lui faire remettre des fonds, des valeurs ou un bien quelconque.",
                 peine: { detention: 10, amende: 5000, complementaire: [] },
                 aggravating: ["Sur personne vulnérable", "Montant élevé", "Usage de faux documents"],
-                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 36,
@@ -981,7 +1063,9 @@
                 definition: "Détourner des fonds, valeurs ou biens conférés à charge de les rendre ou d'en faire un usage déterminé.",
                 peine: { detention: 3, amende: 5000, complementaire: [] },
                 aggravating: ["Au préjudice d'une association humanitaire", "Sur personne vulnérable"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 37,
@@ -991,7 +1075,9 @@
                 definition: "Détourner ou soustraire des fonds publics ou privés conférés en raison de ses fonctions.",
                 peine: { detention: 10, amende: 40000, complementaire: [] },
                 aggravating: ["Fonds publics", "Montant supérieur à 100 000 $"],
-                jurisprudence: "[P-2022-0501] STEWART v. TNPD : La Cour affirme que la police comtale dirige les opérations avec le concours des forces municipales."
+                jurisprudence: "[P-2022-0501] STEWART v. TNPD : La Cour affirme que la police comtale dirige les opérations avec le concours des forces municipales.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 38,
@@ -1001,7 +1087,9 @@
                 definition: "Dégradation ou détérioration d'un bien appartenant à autrui.",
                 peine: { detention: 0, amende: 2500, complementaire: [] },
                 aggravating: ["Bien détruit", "Bien public", "Tag ou graffiti"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 39,
@@ -1011,7 +1099,9 @@
                 definition: "Forcement ou destruction d'un dispositif de fermeture ou de clôture.",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["Suivie d'un vol", "Blessures causées au propriétaire", "Dégâts matériels"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 40,
@@ -1021,7 +1111,9 @@
                 definition: "Entrer ou se maintenir dans une propriété sans le consentement du propriétaire.",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["Avec sollicitation d'une arme", "Dans le domaine privé d'une propriété publique"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 41,
@@ -1031,7 +1123,9 @@
                 definition: "S'introduire dans le domicile d'autrui contre le gré de celui-ci, par une personne chargée d'une mission de service public.",
                 peine: { detention: 10, amende: 25000, complementaire: [] },
                 aggravating: ["Usage de la force", "En bande organisée"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 42,
@@ -1041,7 +1135,9 @@
                 definition: "Profaner un lieu de culte, une sépulture ou un objet vénéré.",
                 peine: { detention: 2, amende: 4500, complementaire: [] },
                 aggravating: ["Lors d'un service religieux", "Site historique ou protégé", "Implication de mineurs"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 43,
@@ -1051,7 +1147,9 @@
                 definition: "Occuper l'espace public sans autorisation de l'administration.",
                 peine: { detention: 1, amende: 15000, complementaire: [] },
                 aggravating: ["Refus de quitter les lieux", "Usage de violences"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 44,
@@ -1061,7 +1159,9 @@
                 definition: "Placer ou maintenir un objet envahissant le bien d'autrui.",
                 peine: { detention: 0, amende: 6000, complementaire: [] },
                 aggravating: ["Refus de régulariser", "Dégâts causés"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 45,
@@ -1071,7 +1171,9 @@
                 definition: "Construire avec une emprise au sol > 10m² sans permis de construire.",
                 peine: { detention: 0, amende: 12000, complementaire: [] },
                 aggravating: ["Construction en zone protégée", "Refus de démolition"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             // **PARTIE V: ATTEINTES À LA NATION**
             {
@@ -1082,7 +1184,9 @@
                 definition: "Volonté d'un groupe de se détacher politiquement d'une collectivité.",
                 peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort pour les dirigeants"] },
                 aggravating: ["Usage de la force", "Incitation à la violence"],
-                jurisprudence: "[P-2024-0204] SLATER v. BELFORT : La Cour établit que le procureur ne peut défendre une personne morale dans une procédure pénale."
+                jurisprudence: "[P-2024-0204] SLATER v. BELFORT : La Cour établit que le procureur ne peut défendre une personne morale dans une procédure pénale.",
+                allowsRecidive: false,
+                allowsAggravating: true
             },
             {
                 id: 47,
@@ -1092,7 +1196,9 @@
                 definition: "Prise du pouvoir dans une ville, un comté ou un État par une minorité grâce à des moyens non constitutionnels.",
                 peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort (sans appel)"] },
                 aggravating: ["Usage de la force armée", "Atteinte aux infrastructures critiques"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: true
             },
             {
                 id: 48,
@@ -1102,7 +1208,9 @@
                 definition: "Actes intentionnels visant à troubler gravement l'ordre public par l'intimidation ou la terreur.",
                 peine: { detention: 100, amende: 30000, complementaire: ["Peine de mort (sans appel)"] },
                 aggravating: ["Usage d'armes de destruction massive", "Atteinte à des infrastructures critiques"],
-                jurisprudence: "[P-2023-0602] DERRICK v. BROWN : La Cour confirme la constitutionnalité de la loi sur les armes automatiques."
+                jurisprudence: "[P-2023-0602] DERRICK v. BROWN : La Cour confirme la constitutionnalité de la loi sur les armes automatiques.",
+                allowsRecidive: false,
+                allowsAggravating: true
             },
             {
                 id: 49,
@@ -1112,7 +1220,9 @@
                 definition: "Groupement formé en vue de la préparation d'une ou plusieurs infractions.",
                 peine: { detention: 10, amende: 8000, complementaire: ["Suppression des droits de visite et d'appel"] },
                 aggravating: ["Infractions graves", "Usage d'armes"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             // **CODE DE LA ROUTE (Contraventions uniquement)**
             {
@@ -1123,7 +1233,9 @@
                 definition: "Stationner un véhicule empiétant sur la route ou sur un emplacement réservé.",
                 peine: { detention: 0, amende: 540, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Obstruction des secours", "Stationnement sur voie de bus"],
-                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le stationnement interdit comme une infraction si l'usage normal de l'espace public est entravé."
+                jurisprudence: "[P-2021-0116] TENNESSEE v. ROY : La Cour considère le stationnement interdit comme une infraction si l'usage normal de l'espace public est entravé.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 51,
@@ -1133,7 +1245,9 @@
                 definition: "Ne pas présenter son permis de conduire, certificat d'immatriculation ou assurance lors d'un contrôle.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Conduite sans permis", "Véhicule non immatriculé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 52,
@@ -1143,7 +1257,9 @@
                 definition: "Traverser la route en dehors des passages piétons ou lorsque le feu est rouge.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["En présence d'enfants", "Visibilité réduite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 53,
@@ -1153,7 +1269,9 @@
                 definition: "Ne pas présenter un gilet à haute visibilité lors d'un contrôle.",
                 peine: { detention: 0, amende: 200, complementaire: [] },
                 aggravating: ["Contrôle de nuit", "Absence de gilet dans le véhicule"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 54,
@@ -1163,7 +1281,9 @@
                 definition: "Circuler la nuit ou par mauvaise visibilité sans éclairage.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Visibilité très réduite", "Zone urbaine"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 55,
@@ -1173,7 +1293,9 @@
                 definition: "Ne pas utiliser les feux de détresse pour signaler une circulation à allure réduite.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Sur autoroute", "Visibilité réduite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 56,
@@ -1183,7 +1305,9 @@
                 definition: "Utiliser le klaxon en dehors des cas d'avertissement d'un danger imminent.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["En zone urbaine", "De nuit"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 57,
@@ -1193,7 +1317,9 @@
                 definition: "Ne pas signaler un changement de direction ou de voie avec les clignotants.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Changement de voie dangereux", "En agglomération"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 58,
@@ -1203,7 +1329,9 @@
                 definition: "Circuler sans plaque d'immatriculation visible et conforme.",
                 peine: { detention: 0, amende: 540, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Plaque illisible", "Véhicule volé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 59,
@@ -1213,7 +1341,9 @@
                 definition: "Dépassement de la limite de vitesse de 2 à 19 mph.",
                 peine: { detention: 0, amende: 600, complementaire: [] },
                 aggravating: ["Zone scolaire", "Conditions météo dangereuses"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 60,
@@ -1223,7 +1353,9 @@
                 definition: "Ne pas réduire son allure dans des situations spécifiques (approche de piétons, croisement, etc.).",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Zone scolaire", "Visibilité réduite"],
-                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 61,
@@ -1233,7 +1365,9 @@
                 definition: "Dépassement de la limite de vitesse de 20 à 39 mph.",
                 peine: { detention: 0, amende: 1000, complementaire: [] },
                 aggravating: ["Dépassement ≥ 30 mph", "Zone scolaire"],
-                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable."
+                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 62,
@@ -1243,7 +1377,9 @@
                 definition: "Ne pas respecter un feu rouge ou un stop.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Accident causé", "Passage piéton engagé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 63,
@@ -1253,7 +1389,9 @@
                 definition: "Ne pas marquer un temps d'arrêt à un panneau stop.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Accident causé", "Visibilité réduite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 64,
@@ -1263,7 +1401,9 @@
                 definition: "Utiliser un téléphone ou un dispositif de communication tenu en main en conduisant.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Accident causé", "Vitesse excessive"],
-                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 65,
@@ -1273,7 +1413,9 @@
                 definition: "S'engager dans une voie dont le sens de circulation est interdit.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["En agglomération", "Visibilité réduite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 66,
@@ -1283,7 +1425,9 @@
                 definition: "Empiéter sur une autre voie de circulation.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Dépassement dangereux", "Sur autoroute"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 67,
@@ -1293,7 +1437,9 @@
                 definition: "Conduire avec un taux d'alcool entre 0,5 et 0,8 g/L.",
                 peine: { detention: 0, amende: 800, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Récidive", "Accident causé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: false
             },
             {
                 id: 68,
@@ -1303,7 +1449,9 @@
                 definition: "Ne pas respecter la priorité des piétons sur les passages cloutés.",
                 peine: { detention: 0, amende: 750, complementaire: [] },
                 aggravating: ["Accident causé", "Visibilité réduite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 69,
@@ -1313,7 +1461,9 @@
                 definition: "Ne pas maintenir une distance de sécurité raisonnable avec le véhicule précédent.",
                 peine: { detention: 0, amende: 540, complementaire: [] },
                 aggravating: ["Vitesse excessive", "Conditions météo dangereuses"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 70,
@@ -1323,7 +1473,9 @@
                 definition: "Conduire à une vitesse ou avec une accélération inadaptée aux conditions de circulation.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Vitesse excessive", "Conditions météo dangereuses"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 71,
@@ -1333,7 +1485,9 @@
                 definition: "Circuler avec un véhicule dont les dispositifs d'éclairage, de signalisation ou d'échappement ne sont pas conformes.",
                 peine: { detention: 0, amende: 800, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Défaut d'éclairage la nuit", "Échappement bruyant"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 72,
@@ -1343,7 +1497,9 @@
                 definition: "Ne pas porter de casque lors de la conduite d'un deux-roues motorisé.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Passager mineur", "Vitesse excessive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 73,
@@ -1353,7 +1509,9 @@
                 definition: "Ne pas porter sa ceinture de sécurité en circulation.",
                 peine: { detention: 0, amende: 800, complementaire: [] },
                 aggravating: ["Passager mineur", "Conducteur professionnel"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             {
                 id: 74,
@@ -1363,7 +1521,9 @@
                 definition: "Dépassement de la limite de vitesse de 40 mph ou plus.",
                 peine: { detention: 0, amende: 1500, complementaire: ["Suspension de permis"] },
                 aggravating: ["Dépassement ≥ 50 mph", "Zone urbaine"],
-                jurisprudence: "[P-2024-0912] SHALL & CO v. DCSO : La Cour rappelle qu'un procureur ne peut défendre une personne morale."
+                jurisprudence: "[P-2024-0912] SHALL & CO v. DCSO : La Cour rappelle qu'un procureur ne peut défendre une personne morale.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 75,
@@ -1373,7 +1533,9 @@
                 definition: "Conduire un véhicule sans assurance valide.",
                 peine: { detention: 0, amende: 1500, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Récidive", "Accident causé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: false
             },
             // **CODE DE LA ROUTE (Délits uniquement)**
             {
@@ -1384,7 +1546,9 @@
                 definition: "Conduire avec un taux d'alcool ≥ 0,8 g/L.",
                 peine: { detention: 2, amende: 4500, complementaire: ["Mise en fourrière", "Rétention du permis"] },
                 aggravating: ["Taux ≥ 1,2 g/L", "Récidive", "Accident causé"],
-                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable."
+                jurisprudence: "[P-2023-0804] TANAKA v. DCSO : La Cour rappelle que la fouille nécessite un doute raisonnable.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 77,
@@ -1394,7 +1558,9 @@
                 definition: "Conduire avec un mépris volontaire pour la sécurité des personnes.",
                 peine: { detention: 1, amende: 3600, complementaire: ["Mise en fourrière", "Rétention du permis"] },
                 aggravating: ["Vitesse excessive", "Dépassement dangereux"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 78,
@@ -1404,7 +1570,9 @@
                 definition: "Conduire sans être titulaire du permis de conduire correspondant.",
                 peine: { detention: 1, amende: 3000, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Récidive", "Conduite en état d'ivresse"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 79,
@@ -1414,7 +1582,9 @@
                 definition: "Conduire sous l'emprise de stupéfiants.",
                 peine: { detention: 2, amende: 7000, complementaire: ["Mise en fourrière", "Rétention du permis"] },
                 aggravating: ["Concentration en alcool ≥ 0,4 g/L", "Récidive"],
-                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale."
+                jurisprudence: "[P-2023-0401] TENNESSEE v. HUSTON : La Cour souligne que les arrêts de travail valent attestation médicale.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 80,
@@ -1424,7 +1594,9 @@
                 definition: "Placer un objet ou détériorer la signalisation pour entraver la circulation.",
                 peine: { detention: 2, amende: 4500, complementaire: ["Révocation du permis"] },
                 aggravating: ["Mise en danger délibérée", "Usage de moyens dangereux"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 81,
@@ -1434,7 +1606,9 @@
                 definition: "Conduire malgré une annulation, suspension ou interdiction de conduire.",
                 peine: { detention: 2, amende: 4500, complementaire: ["Mise en fourrière"] },
                 aggravating: ["Récidive", "Conduite en état d'ivresse"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 82,
@@ -1444,7 +1618,9 @@
                 definition: "Refuser de s'arrêter à une sommation d'un officier de police.",
                 peine: { detention: 5, amende: 7500, complementaire: ["Suspension de permis"] },
                 aggravating: ["Fuite prolongée", "Mise en danger d'autrui"],
-                jurisprudence: "[P-2020-1201] Saisine pour avis du 30 décembre 2020 : La Cour limite les perquisitions sans mandat."
+                jurisprudence: "[P-2020-1201] Saisine pour avis du 30 décembre 2020 : La Cour limite les perquisitions sans mandat.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 83,
@@ -1454,7 +1630,9 @@
                 definition: "Utiliser un gyrophare ou des lumières bleues/rouges sans autorisation.",
                 peine: { detention: 1, amende: 3000, complementaire: ["Confiscation du gyrophare"] },
                 aggravating: ["Usage pour commettre une infraction", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 84,
@@ -1464,7 +1642,9 @@
                 definition: "Ne pas faciliter le passage d'un véhicule en intervention (police, pompiers, ambulance).",
                 peine: { detention: 0, amende: 4000, complementaire: [] },
                 aggravating: ["Mise en danger du véhicule prioritaire", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: false,
+                allowsAggravating: false
             },
             // **PARTIE VI: AUTORITÉ**
             {
@@ -1475,7 +1655,9 @@
                 definition: "Manifester une désobéissance ou un manque de respect envers les juridictions ou interférer dans le processus judiciaire.",
                 peine: { detention: 0, amende: 1000, complementaire: ["Exclusion temporaire des tribunaux"] },
                 aggravating: ["Outrage en audience", "Menace contre un magistrat"],
-                jurisprudence: "[P-2025-2401] WANG V. TENNESSEE : La Cour considère que les comptes de réseaux sociaux publics sont des forums soumis au 1er amendement."
+                jurisprudence: "[P-2025-2401] WANG V. TENNESSEE : La Cour considère que les comptes de réseaux sociaux publics sont des forums soumis au 1er amendement.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 86,
@@ -1485,7 +1667,9 @@
                 definition: "Faire un témoignage mensonger sous serment devant une juridiction ou un officier de police.",
                 peine: { detention: 5, amende: 5000, complementaire: ["Interdiction de témoigner"] },
                 aggravating: ["Parjure entraînant une condamnation injustifiée", "Dans une affaire criminelle"],
-                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable."
+                jurisprudence: "[P-2021-0712] TENNESSEE v. GEORGE : La Cour reconnaît qu'une menace en légitime défense n'est pas punissable.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 87,
@@ -1495,7 +1679,9 @@
                 definition: "Se soustraire à la garde à laquelle un détenu est soumis.",
                 peine: { detention: 10, amende: 15000, complementaire: [] },
                 aggravating: ["Par violence ou effraction", "Avec complicité extérieure"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 88,
@@ -1505,7 +1691,9 @@
                 definition: "Interférer dans le travail des policiers, magistrats ou agents dépositaires de l'autorité publique.",
                 peine: { detention: 10, amende: 7500, complementaire: [] },
                 aggravating: ["Dissimulation de preuves", "Menace contre un témoin"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 89,
@@ -1515,7 +1703,9 @@
                 definition: "Fournir un logement ou des moyens d'existence à un auteur de crime ou de terrorisme.",
                 peine: { detention: 3, amende: 2500, complementaire: [] },
                 aggravating: ["Recel d'un terroriste", "Aide à la fuite"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 90,
@@ -1525,7 +1715,9 @@
                 definition: "Receler ou cacher le cadavre d'une personne victime.",
                 peine: { detention: 5, amende: 6500, complementaire: [] },
                 aggravating: ["Victime d'un homicide", "Dissimulation prolongée"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 91,
@@ -1535,7 +1727,9 @@
                 definition: "Ne pas informer les autorités d'une infraction dont on a connaissance et dont les effets peuvent être limités.",
                 peine: { detention: 3, amende: 2500, complementaire: [] },
                 aggravating: ["Infraction grave", "Complicité passive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 92,
@@ -1545,7 +1739,9 @@
                 definition: "Agir en justice de manière dilatoire ou abusive.",
                 peine: { detention: 0, amende: 10000, complementaire: [] },
                 aggravating: ["Multiplicité de procédures", "Intention de nuire"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 93,
@@ -1555,7 +1751,9 @@
                 definition: "Receler, cacher, modifier ou détruire une preuve dans le cadre d'une enquête ou d'un jugement.",
                 peine: { detention: 10, amende: 7500, complementaire: [] },
                 aggravating: ["Par un officier de justice", "Preuve cruciale"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 94,
@@ -1565,7 +1763,9 @@
                 definition: "Tromperie ou acte de mauvaise foi visant à léser une personne physique ou morale.",
                 peine: { detention: 5, amende: 10000, complementaire: [] },
                 aggravating: ["Fraude contre un organisme d'État", "Montant élevé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 95,
@@ -1575,7 +1775,9 @@
                 definition: "Prendre un avantage personnel dans une opération dont on a la charge de surveillance ou d'administration.",
                 peine: { detention: 5, amende: 15000, complementaire: [] },
                 aggravating: ["Par un haut fonctionnaire", "Montant élevé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 96,
@@ -1585,7 +1787,9 @@
                 definition: "Abuser de son influence pour obtenir une faveur ou une décision en échange d'un avantage.",
                 peine: { detention: 5, amende: 20000, complementaire: [] },
                 aggravating: ["Corruption d'un haut fonctionnaire", "Montant élevé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 97,
@@ -1595,7 +1799,9 @@
                 definition: "Usurper l'identité d'un tiers ou se faire passer pour un représentant de la loi.",
                 peine: { detention: 5, amende: 3000, complementaire: [] },
                 aggravating: ["Usurpation d'un officier de police", "Pour commettre une infraction"],
-                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication."
+                jurisprudence: "[P-2024-0801] HARRIS v. MABROUK & TENNESSEE STATE NEWS : La Cour rappelle l'obligation de vérifier les informations avant publication.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 98,
@@ -1605,7 +1811,9 @@
                 definition: "Fabriquer ou utiliser de faux documents pour obtenir un avantage.",
                 peine: { detention: 5, amende: 2500, complementaire: [] },
                 aggravating: ["Usage pour commettre une infraction", "Faux document officiel"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 99,
@@ -1615,7 +1823,9 @@
                 definition: "Soliciter ou accepter un don ou un avantage en échange d'un acte lié à ses fonctions.",
                 peine: { detention: 10, amende: 15000, complementaire: [] },
                 aggravating: ["Corruption d'un haut fonctionnaire", "Montant élevé"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 100,
@@ -1625,7 +1835,9 @@
                 definition: "Ordonner ou accomplir arbitrairement un acte attentatoire à la liberté individuelle par un représentant de la loi.",
                 peine: { detention: 5, amende: 5000, complementaire: [] },
                 aggravating: ["Atteinte grave aux libertés", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 101,
@@ -1635,7 +1847,9 @@
                 definition: "Contrefaire ou falsifier des pièces de monnaie ou des billets de banque.",
                 peine: { detention: 10, amende: 20000, complementaire: [] },
                 aggravating: ["Faux de grande ampleur", "En bande organisée"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 102,
@@ -1645,7 +1859,9 @@
                 definition: "Révéler une information confidentielle par une personne dépositaire du secret professionnel.",
                 peine: { detention: 2, amende: 5000, complementaire: [] },
                 aggravating: ["Information relative à la justice ou à l'État", "Préjudice grave"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 103,
@@ -1655,7 +1871,9 @@
                 definition: "Modifier l'état des lieux d'un crime ou détruire des preuves pour entraver la manifestation de la vérité.",
                 peine: { detention: 3, amende: 45000, complementaire: [] },
                 aggravating: ["Par un officier de justice", "Preuve cruciale"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 104,
@@ -1665,7 +1883,9 @@
                 definition: "Proposer des services d'assistance juridique sans être inscrit au barreau.",
                 peine: { detention: 5, amende: 20000, complementaire: [] },
                 aggravating: ["Usage de faux diplômes", "Préjudice causé à un client"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             // **CODE DE PROCÉDURE PÉNALE**
             {
@@ -1676,7 +1896,9 @@
                 definition: "Refuser de se soumettre à une injonction légale d'un officier de police.",
                 peine: { detention: 5, amende: 7500, complementaire: [] },
                 aggravating: ["Résistance avec violence", "Mise en danger d'autrui"],
-                jurisprudence: "[P-2020-1011] STEWART v. KYLE : La Cour considère qu'un représentant de l'État doit avoir accès aux informations relevant de sa compétence."
+                jurisprudence: "[P-2020-1011] STEWART v. KYLE : La Cour considère qu'un représentant de l'État doit avoir accès aux informations relevant de sa compétence.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 106,
@@ -1686,7 +1908,9 @@
                 definition: "Prendre la fuite après un accident ou une infraction pour échapper à sa responsabilité.",
                 peine: { detention: 5, amende: 7500, complementaire: [] },
                 aggravating: ["Accident avec blessures", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 107,
@@ -1696,7 +1920,9 @@
                 definition: "Entraver l'arrivée des secours ou omettre de porter assistance à une personne en danger.",
                 peine: { detention: 2, amende: 5000, complementaire: [] },
                 aggravating: ["Mise en danger des secours", "Décès de la victime"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 108,
@@ -1706,7 +1932,9 @@
                 definition: "Déclencher une alerte d'urgence sans raison valable, causant une panique ou une mobilisation inutile des secours.",
                 peine: { detention: 0, amende: 5000, complementaire: [] },
                 aggravating: ["Mobilisation importante des secours", "Récidive"],
-                jurisprudence: "Aucune jurisprudence spécifique."
+                jurisprudence: "Aucune jurisprudence spécifique.",
+                allowsRecidive: true,
+                allowsAggravating: true
             },
             {
                 id: 109,
@@ -1716,11 +1944,15 @@
                 definition: "Refuser de s'identifier à un représentant des forces de l'ordre lors d'une arrestation ou d'un soupçon d'infraction.",
                 peine: { detention: 1, amende: 5000, complementaire: [] },
                 aggravating: ["Résistance à l'arrestation", "Fausse identité"],
-                jurisprudence: "[P-2021-1021] TENNESSEE v. CART : La Cour considère que le non-respect des ordonnances judiciaires est un manquement grave."
+                jurisprudence: "[P-2021-1021] TENNESSEE v. CART : La Cour considère que le non-respect des ordonnances judiciaires est un manquement grave.",
+                allowsRecidive: true,
+                allowsAggravating: true
             }
         ];
-        // État des infractions sélectionnées
+
+        // État des infractions sélectionnées avec leurs options
         let selectedInfractions = [];
+
         // Fonction pour afficher les infractions
         function displayInfractions(infractionsToDisplay) {
             const container = document.getElementById('infractions-container');
@@ -1735,7 +1967,7 @@
                 return;
             }
             infractionsToDisplay.forEach(infraction => {
-                const isSelected = selectedInfractions.includes(infraction.id);
+                const isSelected = selectedInfractions.some(item => item.id === infraction.id);
                 const card = document.createElement('div');
                 card.className = `infraction-card ${infraction.gravity}`;
                 card.innerHTML = `
@@ -1749,10 +1981,14 @@
                 // Gestion des cases à cocher
                 const checkbox = card.querySelector('.card-checkbox');
                 checkbox.addEventListener('change', () => {
-                    if (checkbox.checked && !selectedInfractions.includes(infraction.id)) {
-                        selectedInfractions.push(infraction.id);
+                    if (checkbox.checked && !selectedInfractions.some(item => item.id === infraction.id)) {
+                        selectedInfractions.push({
+                            id: infraction.id,
+                            recidive: false,
+                            aggravating: false
+                        });
                     } else if (!checkbox.checked) {
-                        selectedInfractions = selectedInfractions.filter(id => id !== infraction.id);
+                        selectedInfractions = selectedInfractions.filter(item => item.id !== infraction.id);
                     }
                     updateCartBadge();
                     updateCartPopup();
@@ -1765,6 +2001,7 @@
                 });
             });
         }
+
         // Ouvrir la popup d'infraction
         function openInfractionPopup(infraction) {
             const popupOverlay = document.getElementById('popupOverlay');
@@ -1801,6 +2038,7 @@
                 popup.classList.add('active');
             }, 10);
         }
+
         // Fermer la popup d'infraction
         function closeInfractionPopup() {
             const popupOverlay = document.getElementById('popupOverlay');
@@ -1810,11 +2048,13 @@
                 popupOverlay.classList.remove('active');
             }, 300);
         }
+
         // Mettre à jour le badge du panier
         function updateCartBadge() {
             const cartToggle = document.getElementById('cartToggle');
             cartToggle.setAttribute('data-count', selectedInfractions.length);
         }
+
         // Mettre à jour la popup du panier
         function updateCartPopup() {
             const cartPopupItems = document.getElementById('cartPopupItems');
@@ -1832,11 +2072,106 @@
                 cartPopupTotalComplementaire.textContent = 'Aucune';
                 return;
             }
-            selectedInfractions.forEach(id => {
-                const infraction = infractions.find(i => i.id === id);
+            selectedInfractions.forEach(item => {
+                const infraction = infractions.find(i => i.id === item.id);
                 if (infraction) {
-                    totalDetention += infraction.peine.detention;
-                    totalAmende += infraction.peine.amende;
+                    let detention = infraction.peine.detention;
+                    let amende = infraction.peine.amende;
+                    // Application de la récidive si cochée
+                    if (item.recidive && infraction.allowsRecidive) {
+                        detention *= 2;
+                        amende *= 2;
+                    }
+                    // Application des circonstances aggravantes si cochée
+                    if (item.aggravating && infraction.allowsAggravating) {
+                        // Logique spécifique selon le type d'infraction
+                        switch (infraction.id) {
+                            case 4: // Meurtre au premier degré
+                            case 5: // Meurtre au second degré
+                                detention += 10;
+                                amende += 5000;
+                                break;
+                            case 6: // Homicide involontaire
+                                detention += 5;
+                                amende += 3000;
+                                break;
+                            case 9: // Agression aggravée
+                            case 10: // Séquestration
+                            case 11: // Séquestration aggravée
+                            case 12: // Torture
+                            case 14: // Viol
+                            case 15: // Agression sexuelle
+                            case 17: // Harcèlement sexuel
+                            case 19: // Menace aggravée
+                            case 20: // Menace aggravée
+                            case 21: // Diffusion d'informations personnelles
+                            case 23: // Émeute
+                            case 24: // Incitation à l'émeute
+                            case 25: // Trouble à l'ordre public
+                            case 26: // Trouble à l'ordre public aggravé
+                            case 31: // Vol
+                            case 32: // Vol aggravé
+                            case 33: // Braquage
+                            case 34: // Extorsion
+                            case 35: // Escroquerie
+                            case 36: // Abus de confiance
+                            case 37: // Détournement de fonds
+                            case 38: // Dégradation
+                            case 39: // Effraction
+                            case 40: // Intrusion
+                            case 41: // Atteinte à l'inviolabilité du domicile
+                            case 42: // Profanation
+                            case 43: // Occupation illégale du domaine public
+                            case 44: // Trouble anormal du voisinage
+                            case 45: // Construction illégale
+                            case 46: // Séparatisme
+                            case 47: // Coup d'État
+                            case 48: // Terrorisme
+                            case 49: // Bande organisée
+                            case 74: // Excès de vitesse (+40 mph)
+                            case 76: // Conduite en état d'ivresse (+0,8 g/L)
+                            case 77: // Conduite dangereuse
+                            case 78: // Conduite sans permis
+                            case 79: // Conduite sous stupéfiants
+                            case 80: // Entrave à la circulation
+                            case 81: // Conduite malgré interdiction
+                            case 82: // Refus d'obtempérer
+                            case 83: // Conduite avec gyrophare non autorisé
+                            case 85: // Outrage à la justice
+                            case 86: // Parjure
+                            case 87: // Évasion
+                            case 88: // Entrave à la justice
+                            case 89: // Recel de malfaiteur
+                            case 90: // Recel de cadavre
+                            case 91: // Non-dénonciation d'une infraction
+                            case 92: // Procédure abusive
+                            case 93: // Dissimulation de preuve
+                            case 94: // Fraude
+                            case 95: // Prise illégale d'intérêt
+                            case 96: // Trafic d'influence
+                            case 97: // Usurpation d'identité
+                            case 98: // Faux et usage de faux
+                            case 99: // Corruption
+                            case 100: // Abus de pouvoir
+                            case 101: // Fausse monnaie
+                            case 102: // Atteinte au secret professionnel
+                            case 103: // Modification de preuve
+                            case 104: // Exercice illégal du droit
+                            case 105: // Refus de se soumettre à l'injonction d'un officier
+                            case 106: // Délit de fuite
+                            case 107: // Entrave aux mesures d'assistance
+                            case 108: // Fausse alerte
+                            case 109: // Refus d'identification
+                                detention += 5;
+                                amende += 2000;
+                                break;
+                            default:
+                                detention += 2;
+                                amende += 1000;
+                        }
+                    }
+                    totalDetention += detention;
+                    totalAmende += amende;
                     complementaires.push(...infraction.peine.complementaire);
                     const cartItem = document.createElement('div');
                     cartItem.className = 'cart-popup-item';
@@ -1844,10 +2179,24 @@
                         <div class="cart-popup-item-info">
                             <h5>${infraction.title}</h5>
                             <p style="font-size: 0.9rem; color: #7f8c8d;">${infraction.gravity}</p>
+                            <div class="cart-item-options">
+                                ${infraction.allowsRecidive ? `
+                                    <div class="cart-item-option">
+                                        <input type="checkbox" id="recidive-${infraction.id}" ${item.recidive ? 'checked' : ''} data-id="${infraction.id}" class="recidive-checkbox">
+                                        <label for="recidive-${infraction.id}">Récidive</label>
+                                    </div>
+                                ` : ''}
+                                ${infraction.allowsAggravating ? `
+                                    <div class="cart-item-option">
+                                        <input type="checkbox" id="aggravating-${infraction.id}" ${item.aggravating ? 'checked' : ''} data-id="${infraction.id}" class="aggravating-checkbox">
+                                        <label for="aggravating-${infraction.id}">Circonstances aggravantes</label>
+                                    </div>
+                                ` : ''}
+                            </div>
                         </div>
                         <div class="cart-popup-item-peine">
-                            <p><strong>${infraction.peine.detention} ans</strong></p>
-                            <p><strong>${infraction.peine.amende} $</strong></p>
+                            <p><strong>${detention} ans</strong></p>
+                            <p><strong>${amende} $</strong></p>
                         </div>
                     `;
                     cartPopupItems.appendChild(cartItem);
@@ -1861,7 +2210,29 @@
             } else {
                 cartPopupTotalComplementaire.textContent = 'Aucune';
             }
+            // Gestion des cases à cocher dans le panier
+            document.querySelectorAll('.recidive-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    const item = selectedInfractions.find(item => item.id === id);
+                    if (item) {
+                        item.recidive = e.target.checked;
+                        updateCartPopup();
+                    }
+                });
+            });
+            document.querySelectorAll('.aggravating-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const id = parseInt(e.target.dataset.id);
+                    const item = selectedInfractions.find(item => item.id === id);
+                    if (item) {
+                        item.aggravating = e.target.checked;
+                        updateCartPopup();
+                    }
+                });
+            });
         }
+
         // Ouvrir la popup du panier
         function openCartPopup() {
             const cartPopupOverlay = document.getElementById('cartPopupOverlay');
@@ -1872,6 +2243,7 @@
                 cartPopup.classList.add('active');
             }, 10);
         }
+
         // Fermer la popup du panier
         function closeCartPopup() {
             const cartPopupOverlay = document.getElementById('cartPopupOverlay');
@@ -1881,6 +2253,7 @@
                 cartPopupOverlay.classList.remove('active');
             }, 300);
         }
+
         // Filtrer les infractions
         function filterInfractions() {
             const searchTerm = document.getElementById('search').value.toLowerCase();
@@ -1910,6 +2283,7 @@
             }
             displayInfractions(filteredInfractions);
         }
+
         // Événements
         document.getElementById('search').addEventListener('input', filterInfractions);
         document.getElementById('search-btn').addEventListener('click', filterInfractions);
